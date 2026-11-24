@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>لوحة التحكم | أمجد الشعشاع</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Space+Grotesk:wght@700&display=swap">
+<style>
+  :root {
+    --bg: #F2F4F7; --surface: #FFFFFF; --fg: #11151C; --muted: #566070; --line: #D6DCE5;
+    --accent: #2B52F5; --accent-ink: #FFFFFF; --bad: #C62828; --ok: #0F7B5F; --warn: #9A5B00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0D1015; --surface: #151A22; --fg: #EEF1F6; --muted: #9AA4B2; --line: #262D38;
+      --accent: #8CA4FF; --accent-ink: #0D1015; --bad: #FF8A80; --ok: #4ADE9C; --warn: #F0B35A;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: "IBM Plex Sans Arabic", system-ui, sans-serif; font-size: 16px; line-height: 1.7; }
+  .wrap { max-width: 760px; margin-inline: auto; padding: 20px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+  h1 { font-size: 1.6rem; margin: 0; line-height: 1.3; }
+  h2 { font-size: 1.1rem; margin: 0 0 14px; }
+  a { color: var(--accent); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 20px; margin-bottom: 14px; }
+  label { display: block; font-size: 14px; color: var(--muted); margin: 12px 0 4px; }
+  input[type="text"], input[type="password"], input[type="url"], select, textarea {
+    width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--fg);
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  .ltr { direction: ltr; text-align: left; }
+  .chk { display: flex; align-items: center; gap: 8px; margin: 12px 0; color: var(--fg); }
+  .chk input { width: 18px; height: 18px; }
+  button { font: inherit; font-size: 15px; font-weight: 500; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.small { padding: 6px 10px; font-size: 13px; }
+  button.danger { color: var(--bad); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  details { margin-top: 12px; color: var(--muted); font-size: 14px; }
+  details summary { cursor: pointer; color: var(--accent); }
+  details ol, details p { margin: 8px 0 0; padding-inline-start: 1.3em; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+  .item { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .item:first-child { border-top: 0; }
+  .item .n { width: 26px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .item .info { flex: 1 1 200px; min-width: 0; }
+  .item .t { font-weight: 500; overflow-wrap: anywhere; }
+  .item .u { font-size: 12px; color: var(--muted); direction: ltr; text-align: left; overflow-wrap: anywhere; }
+  .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-inline-end: 6px; }
+  .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .empty { color: var(--muted); margin: 0; }
+  .savebar {
+    position: sticky; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--surface); border-top: 1px solid var(--line); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  }
+  #status { font-size: 14px; min-width: 0; overflow-wrap: anywhere; color: var(--muted); }
+  #status.ok { color: var(--ok); } #status.bad { color: var(--bad); } #status.warn { color: var(--warn); }
+  .msg { font-size: 14px; margin: 10px 0 0; min-height: 1.4em; }
+  .msg.bad { color: var(--bad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <h1>لوحة التحكم</h1>
+    <a href="./">عرض الموقع</a>
+  </header>
+
+  <section class="card">
+    <h2>1. الاتصال بـ GitHub</h2>
+    <label for="repo">الريبو</label>
+    <input type="text" id="repo" class="ltr" autocomplete="off" spellcheck="false">
+    <label for="token">GitHub Token</label>
+    <input type="password" id="token" class="ltr" autocomplete="off" spellcheck="false" placeholder="github_pat_...">
+    <label class="chk"><input type="checkbox" id="remember"> احفظ التوكن على هالجهاز</label>
+    <button type="button" id="btn-load">تحميل الأعمال</button>
+    <details>
+      <summary>كيف بجيب التوكن؟</summary>
+      <ol>
+        <li>من GitHub: Settings ثم Developer settings ثم Personal access tokens ثم Fine-grained tokens ثم Generate new token.</li>
+        <li>بـ Repository access اختار Only select repositories وحدد هالريبو.</li>
+        <li>بـ Permissions ثم Repository permissions خلي Contents على Read and write.</li>
+        <li>انسخ التوكن والصقو هون. بدونو بتقدر تشوف الأعمال بس ما بتقدر تنشر.</li>
+      </ol>
+      <p>التوكن بيضل على جهازك ولا بينرفع لأي مكان غير GitHub.</p>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2>2. الأعمال</h2>
+    <div id="list"><p class="empty">جاري التحميل...</p></div>
+  </section>
+
+  <section class="card">
+    <h2 id="form-title">3. إضافة عمل</h2>
+    <form id="form">
+      <div class="row2">
+        <div>
+          <label for="f-type">النوع</label>
+          <select id="f-type">
+            <option value="reel">ريلز</option>
+            <option value="ad">إعلان</option>
+            <option value="edu">فيديو تعليمي</option>
+            <option value="motion">موشن غرافيك</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-url">رابط الفيديو</label>
+          <input type="url" id="f-url" class="ltr" placeholder="https://drive.google.com/file/d/..." required>
+        </div>
+        <div>
+          <label for="f-ar">العنوان بالعربي</label>
+          <input type="text" id="f-ar">
+        </div>
+        <div>
+          <label for="f-en">العنوان بالإنجليزي</label>
+          <input type="text" id="f-en" class="ltr">
+        </div>
+      </div>
+      <p class="msg" id="form-msg"></p>
+      <div class="acts" style="margin-top:10px">
+        <button type="submit" class="primary" id="btn-add">إضافة للقائمة</button>
+        <button type="button" id="btn-cancel" hidden>إلغاء التعديل</button>
+      </div>
+    </form>
+    <details>
+      <summary>إضافة عدة روابط دفعة وحدة</summary>
+      <p>كل سطر رابط. بتقدر تضيف عنوان بعد خط عمودي: الرابط | العنوان بالعربي | العنوان بالإنجليزي. النوع بيتاخد من الخانة التالية.</p>
+      <label for="b-type">النوع</label>
+      <select id="b-type">
+        <option value="reel">ريلز</option>
+        <option value="ad">إعلان</option>
+        <option value="edu">فيديو تعليمي</option>
+        <option value="motion">موشن غرافيك</option>
+      </select>
+      <label for="b-text">الروابط</label>
+      <textarea id="b-text" class="ltr" placeholder="https://drive.google.com/file/d/... | عنوان | Title"></textarea>
+      <div style="margin-top:10px"><button type="button" id="btn-bulk">إضافة الكل</button></div>
+      <p class="msg" id="bulk-msg"></p>
+    </details>
+    <details>
+      <summary>كيف بجيب رابط الفيديو من الدرايف؟</summary>
+      <ol>
+        <li>افتح الفيديو بالدرايف واضغط مشاركة.</li>
+        <li>خلي الوصول: أي شخص معه الرابط، بصلاحية مشاهد.</li>
+        <li>انسخ الرابط والصقو هون. بدون هالخطوة ما بيشتغل الفيديو عند الزوار.</li>
+      </ol>
+      <p>روابط يوتيوب وإنستغرام بتشتغل كمان، بس بتفتح بتبويب جديد بدل نافذة المشاهدة.</p>
+    </details>
+  </section>
+
+  <div class="savebar">
+    <span id="status"></span>
+    <button type="button" class="primary" id="btn-save" disabled>نشر التغييرات</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var KINDS = { reel: "ريلز", ad: "إعلان", edu: "فيديو تعليمي", motion: "موشن غرافيك" };
+  var S = { sha: null, works: [], dirty: false, editing: -1, loaded: false, delIdx: -1 };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function driveId(u) {
+    var m = /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/.exec(u || "");
+    return m ? m[1] : null;
+  }
+  function isUrl(u) { return /^https?:\/\/\S+$/i.test(u); }
+
+  function dec(b64) {
+    var bin = atob(b64.replace(/\s/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function enc(str) {
+    var bytes = new TextEncoder().encode(str);
+    var bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+
+  function lsGet() { try { return JSON.parse(localStorage.getItem("adm") || "{}"); } catch (e) { return {}; } }
+  function saveCfg() {
+    var o = { repo: $("repo").value.trim() };
+    if ($("remember").checked) o.token = $("token").value.trim();
+    try { localStorage.setItem("adm", JSON.stringify(o)); } catch (e) {}
+  }
+  function setStatus(msg, kind) {
+    var el = $("status");
+    el.textContent = msg || "";
+    el.className = kind || "";
+  }
+  function setDirty(v) {
+    S.dirty = v;
+    $("btn-save").disabled = !v;
+  }
+
+  function gh(method, body) {
+    var h = { "Accept": "application/vnd.github+json" };
+    var t = $("token").value.trim();
+    if (t) h["Authorization"] = "Bearer " + t;
+    var o = { method: method, headers: h, cache: "no-store" };
+    if (body) { h["Content-Type"] = "application/json"; o.body = JSON.stringify(body); }
+    return fetch("https://api.github.com/repos/" + $("repo").value.trim() + "/contents/data/works.json", o);
+  }
+  function errText(status) {
+    if (status === 401) return "التوكن غير صحيح أو منتهي.";
+    if (status === 403) return "ما في صلاحية للتوكن، أو وصلت حد الطلبات. تأكد إنو Contents على Read and write.";
+    if (status === 404) return "ما لقيت الريبو أو التوكن ما بيشوفه.";
+    if (status === 409 || status === 422) return "الملف تغيّر من مكان تاني. اضغط تحميل الأعمال من جديد.";
+    return "صار خطأ (" + status + ").";
+  }
+
+  async function load() {
+    saveCfg();
+    setStatus("جاري التحميل...");
+    try {
+      var r = await gh("GET");
+      if (r.status === 404) {
+        S.works = []; S.sha = null; S.loaded = true;
+        setStatus("ما لقيت data/works.json بالريبو. رح ينشأ عند أول نشر.", "warn");
+      } else if (!r.ok) {
+        throw new Error(errText(r.status));
+      } else {
+        var j = await r.json();
+        S.sha = j.sha;
+        S.works = JSON.parse(dec(j.content));
+        if (!Array.isArray(S.works)) throw new Error("محتوى works.json لازم يكون قائمة.");
+        S.loaded = true;
+        setStatus("تم تحميل " + S.works.length + " عمل.", "ok");
+      }
+      S.editing = -1; S.delIdx = -1;
+      setDirty(false);
+      resetForm();
+      render();
+    } catch (e) {
+      setStatus(e.message || "تعذر التحميل.", "bad");
+      render();
+    }
+  }
+
+  async function save() {
+    if (!$("token").value.trim()) { setStatus("لازم تحط التوكن حتى تنشر.", "bad"); return; }
+    setStatus("جاري النشر...");
+    $("btn-save").disabled = true;
+    try {
+      var body = { message: "Update works from admin panel", content: enc(JSON.stringify(S.works, null, 2) + "\n") };
+      if (S.sha) body.sha = S.sha;
+      var r = await gh("PUT", body);
+      if (!r.ok) throw new Error(errText(r.status));
+      var j = await r.json();
+      S.sha = j.content.sha;
+      setDirty(false);
+      setStatus("تم النشر. بيظهر على الموقع خلال دقيقة أو اثنتين.", "ok");
+    } catch (e) {
+      setDirty(true);
+      setStatus(e.message || "تعذر النشر.", "bad");
+    }
+  }
+
+  function render() {
+    var box = $("list");
+    if (!S.loaded) { box.innerHTML = '<p class="empty">اضغط تحميل الأعمال.</p>'; return; }
+    if (!S.works.length) { box.innerHTML = '<p class="empty">ما في أعمال بعد. أضف أول عمل من الأسفل.</p>'; return; }
+    var html = "";
+    S.works.forEach(function (w, i) {
+      var title = w.ar || w.en || "بدون عنوان";
+      var d = driveId(w.url) ? '<span class="chip">درايف</span>' : "";
+      html += '<div class="item">' +
+        '<span class="n">' + (i + 1) + '</span>' +
+        '<div class="info"><div class="t"><span class="chip">' + esc(KINDS[w.type] || w.type) + '</span>' + d + esc(title) + '</div>' +
+        '<div class="u">' + esc(w.url) + '</div></div>' +
+        '<div class="acts">' +
+        '<button type="button" class="small" data-act="up" data-i="' + i + '"' + (i === 0 ? " disabled" : "") + ' aria-label="رفع">↑</button>' +
+        '<button type="button" class="small" data-act="down" data-i="' + i + '"' + (i === S.works.length - 1 ? " disabled" : "") + ' aria-label="تنزيل">↓</button>' +
+        '<button type="button" class="small" data-act="edit" data-i="' + i + '">تعديل</button>' +
+        '<button type="button" class="small danger" data-act="del" data-i="' + i + '">' + (S.delIdx === i ? "تأكيد الحذف" : "حذف") + '</button>' +
+        '</div></div>';
+    });
+    box.innerHTML = html;
+  }
+
+  function resetForm() {
+    S.editing = -1;
+    $("form").reset();
+    $("form-title").textContent = "3. إضافة عمل";
+    $("btn-add").textContent = "إضافة للقائمة";
+    $("btn-cancel").hidden = true;
+    $("form-msg").textContent = "";
+  }
+
+  $("list").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-act]");
+    if (!b) return;
+    var i = Number(b.dataset.i), act = b.dataset.act, a = S.works;
+    if (act === "up" && i > 0) { var t = a[i - 1]; a[i - 1] = a[i]; a[i] = t; S.delIdx = -1; setDirty(true); }
+    else if (act === "down" && i < a.length - 1) { var t2 = a[i + 1]; a[i + 1] = a[i]; a[i] = t2; S.delIdx = -1; setDirty(true); }
+    else if (act === "edit") {
+      var w = a[i];
+      S.editing = i; S.delIdx = -1;
+      $("f-type").value = w.type || "reel"; $("f-url").value = w.url || "";
+      $("f-ar").value = w.ar || ""; $("f-en").value = w.en || "";
+      $("form-title").textContent = "3. تعديل العمل رقم " + (i + 1);
+      $("btn-add").textContent = "حفظ التعديل";
+      $("btn-cancel").hidden = false;
+      $("f-url").scrollIntoView({ block: "center" });
+    }
+    else if (act === "del") {
+      if (S.delIdx === i) { a.splice(i, 1); S.delIdx = -1; if (S.editing === i) resetForm(); setDirty(true); }
+      else { S.delIdx = i; }
+    }
+    render();
+  });
+
+  $("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var msg = $("form-msg");
+    if (!S.loaded) { msg.className = "msg bad"; msg.textContent = "حمّل الأعمال أول."; return; }
+    var url = $("f-url").value.trim();
+    if (!isUrl(url)) { msg.className = "msg bad"; msg.textContent = "الرابط لازم يبدأ بـ https://"; return; }
+    var w = { type: $("f-type").value, ar: $("f-ar").value.trim(), en: $("f-en").value.trim(), url: url };
+    if (S.editing >= 0) S.works[S.editing] = w; else S.works.push(w);
+    resetForm();
+    setDirty(true);
+    render();
+    setStatus("التغيير جاهز. اضغط نشر التغييرات.", "warn");
+  });
+  $("btn-cancel").addEventListener("click", resetForm);
+
+  $("btn-bulk").addEventListener("click", function () {
+    var msg = $("bulk-msg");
+    if (!S.loaded) { msg.className = "msg bad"; msg.textContent = "حمّل الأعمال أول."; return; }
+    var added = 0, bad = 0;
+    $("b-text").value.split("\n").forEach(function (line) {
+      line = line.trim();
+      if (!line) return;
+      var p = line.split("|");
+      var url = p[0].trim();
+      if (!isUrl(url)) { bad++; return; }
+      S.works.push({ type: $("b-type").value, ar: (p[1] || "").trim(), en: (p[2] || "").trim(), url: url });
+      added++;
+    });
+    msg.className = bad ? "msg bad" : "msg";
+    msg.textContent = "انضاف " + added + " عمل" + (bad ? " وتجاهلت " + bad + " سطر بدون رابط صحيح." : ".");
+    if (added) { $("b-text").value = ""; setDirty(true); render(); setStatus("التغيير جاهز. اضغط نشر التغييرات.", "warn"); }
+  });
+
+  $("btn-load").addEventListener("click", load);
+  $("btn-save").addEventListener("click", save);
+  window.addEventListener("beforeunload", function (e) { if (S.dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+  var cfg = lsGet();
+  $("repo").value = cfg.repo || "yazankakaje192-tech/amjad-al-shaasha";
+  if (cfg.token) { $("token").value = cfg.token; $("remember").checked = true; }
+  load();
+})();
+</script>
+</body>
+</html>

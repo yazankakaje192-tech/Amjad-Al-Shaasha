@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Amjad Al Shaasha</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  /* Layout: an editing-timeline portfolio. The experience section plots each
+     real job on one shared Jul 2021 – Dec 2026 axis, like tracks in an NLE. */
+  :root {
+    --bg: #F2F4F7;
+    --surface: #FFFFFF;
+    --fg: #11151C;
+    --muted: #566070;
+    --line: #D6DCE5;
+    --accent: #2B52F5;
+    --accent-ink: #FFFFFF;
+    --c-video: #2B52F5;
+    --c-social: #0F9D8A;
+    --c-app: #8A4BE0;
+    --c-agency: #D9822B;
+    --c-free: #5A6472;
+    --f-display: "Space Grotesk", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --f-body: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1015; --surface: #151A22; --fg: #EEF1F6; --muted: #9AA4B2; --line: #262D38;
+      --accent: #8CA4FF; --accent-ink: #0D1015;
+      --c-video: #6F8DFF; --c-social: #34D3BE; --c-app: #B28CFF; --c-agency: #F0A85A; --c-free: #7C8797;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1015; --surface: #151A22; --fg: #EEF1F6; --muted: #9AA4B2; --line: #262D38;
+    --accent: #8CA4FF; --accent-ink: #0D1015;
+    --c-video: #6F8DFF; --c-social: #34D3BE; --c-app: #B28CFF; --c-agency: #F0A85A; --c-free: #7C8797;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; }
+  #app { --gd: to right; }
+  #app[dir="rtl"] { --gd: to left; }
+  #app {
+    --grid: linear-gradient(var(--gd),
+      transparent 0 9.09%, var(--line) 9.09% calc(9.09% + 1px),
+      transparent calc(9.09% + 1px) 27.27%, var(--line) 27.27% calc(27.27% + 1px),
+      transparent calc(27.27% + 1px) 45.45%, var(--line) 45.45% calc(45.45% + 1px),
+      transparent calc(45.45% + 1px) 63.64%, var(--line) 63.64% calc(63.64% + 1px),
+      transparent calc(63.64% + 1px) 81.82%, var(--line) 81.82% calc(81.82% + 1px),
+      transparent calc(81.82% + 1px));
+  }
+  #app[lang="ar"] .en { display: none; }
+  #app[lang="en"] .ar { display: none; }
+  #app[lang="ar"] { line-height: 1.8; }
+  #app[lang="en"] { line-height: 1.6; }
+
+  .wrap {
+    max-width: 1040px; margin-inline: auto;
+    padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 20px 56px;
+  }
+  .wrap > * { min-width: 0; }
+
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .mono { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+  [dir="ltr"] .num, .num { unicode-bidi: isolate; direction: ltr; }
+
+  /* top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 4px 28px; }
+  .mark { font-family: var(--f-display); font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+  .mark i { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+  .lang button {
+    font: inherit; font-size: 13px; line-height: 1; padding: 8px 14px; border: 0; border-radius: 999px;
+    background: transparent; color: var(--muted); cursor: pointer;
+  }
+  .lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+
+  /* hero */
+  .hero { padding-block: 20px 12px; }
+  .eyebrow { font-size: 13px; color: var(--muted); margin: 0 0 14px; font-family: var(--f-mono); font-weight: 500; }
+  #app[lang="ar"] .eyebrow { font-family: var(--f-body); font-size: 14px; }
+  #app[lang="en"] .eyebrow { letter-spacing: .12em; text-transform: uppercase; }
+  h1 {
+    font-family: var(--f-display); font-weight: 700; margin: 0 0 18px;
+    font-size: clamp(2.5rem, 9vw, 4.75rem); line-height: 1.1; text-wrap: balance;
+  }
+  .lead { font-size: clamp(1.05rem, 2.4vw, 1.25rem); color: var(--muted); max-width: 62ch; margin: 0 0 28px; text-wrap: pretty; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 15px; font-weight: 500;
+    padding: 12px 20px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--fg); text-decoration: none; cursor: pointer;
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .stat b { display: block; font-family: var(--f-display); font-size: 2.1rem; line-height: 1.1; font-weight: 700; color: var(--accent); }
+  .stat span { display: block; font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  /* sections */
+  section { padding-block: 56px 0; }
+  h2 { font-family: var(--f-display); font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 0 0 8px; line-height: 1.2; font-weight: 700; text-wrap: balance; }
+  .sub { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
+
+  /* works */
+  .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+  .work {
+    position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
+    aspect-ratio: 4 / 5; max-width: 100%; padding: 16px; border-radius: 14px; text-decoration: none;
+    background: var(--surface); border: 1px solid var(--line); overflow: hidden;
+  }
+  .work .play {
+    position: absolute; inset-block-start: 16px; inset-inline-start: 16px; width: 44px; height: 44px;
+    border-radius: 50%; display: grid; place-items: center; background: var(--bg); border: 1px solid var(--line);
+  }
+  .work .play svg { width: 16px; height: 16px; fill: var(--fg); }
+  #app[dir="rtl"] .work .play svg { transform: scaleX(-1); }
+  .work .kind { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+  #app[lang="ar"] .work .kind { font-family: var(--f-body); font-size: 13px; }
+  .work .ttl { font-weight: 700; font-size: 1.05rem; }
+  .work.soon { border-style: dashed; background: transparent; }
+  .work.soon .ttl { color: var(--muted); font-weight: 500; }
+  a.work:hover { border-color: var(--accent); }
+
+  /* experience timeline */
+  .axis { position: relative; height: 24px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .axis span { position: absolute; inset-inline-start: calc(var(--p) * 1%); font-family: var(--f-mono); font-size: 12px; color: var(--muted); transform: translateX(-4px); }
+  #app[dir="rtl"] .axis span { transform: translateX(4px); }
+  .roles { display: grid; gap: 14px; }
+  .role { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 20px 18px; }
+  .role h3 { margin: 0; font-family: var(--f-display); font-size: 1.2rem; line-height: 1.3; font-weight: 700; }
+  .role .meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); font-size: 14px; margin: 4px 0 14px; }
+  .role .meta .when { font-family: var(--f-mono); font-size: 13px; }
+  .track { position: relative; height: 16px; border-radius: 4px; background-image: var(--grid), none; background-color: color-mix(in srgb, var(--line) 35%, transparent); margin-bottom: 16px; }
+  .bar {
+    position: absolute; inset-block: 2px; border-radius: 3px; background: var(--clip);
+    inset-inline-start: calc(var(--s) / 66 * 100%); width: calc(var(--w) / 66 * 100%);
+  }
+  .role ul { margin: 0; padding-inline-start: 1.1em; display: grid; gap: 6px; color: var(--fg); }
+  .role li::marker { color: var(--clip); }
+  .role .clients { margin: 14px 0 0; font-size: 14px; color: var(--muted); }
+  .role .clients b { color: var(--fg); font-weight: 500; }
+
+  /* skills & more */
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .box { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .box h3 { margin: 0 0 10px; font-size: 1rem; font-family: var(--f-display); font-weight: 700; }
+  .box ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; color: var(--muted); }
+  .box li { padding-inline-start: 14px; position: relative; }
+  .box li::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .72em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .box p { margin: 0; color: var(--muted); }
+  .box p b { color: var(--fg); font-weight: 500; }
+
+  /* contact */
+  .contact { background: var(--fg); color: var(--bg); border-radius: 18px; padding: clamp(22px, 5vw, 40px); }
+  .contact h2 { color: var(--bg); }
+  .contact .sub { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+  .rows { display: grid; gap: 12px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-block: 12px; border-top: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); }
+  .row .k { flex: 0 0 90px; font-size: 14px; color: color-mix(in srgb, var(--bg) 65%, transparent); }
+  .row .v { flex: 1 1 200px; min-width: 0; overflow-wrap: anywhere; font-size: 1.05rem; user-select: all; }
+  .contact .btn { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 40%, transparent); padding: 8px 14px; font-size: 14px; }
+  .contact .btn.wa { background: var(--bg); color: var(--fg); border-color: var(--bg); }
+  .copy .done { display: none; }
+  .copy.ok .done { display: inline; }
+  .copy.ok .idle { display: none; }
+  footer { margin-top: 28px; text-align: center; color: var(--muted); font-size: 13px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn, a.work { transition: border-color .15s, transform .15s; }
+    .btn:hover { transform: translateY(-1px); }
+  }
+
+  body { margin: 0; }
+  button.work { font: inherit; color: inherit; text-align: start; cursor: pointer; width: 100%; }
+  .work .thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .work.has-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,14,.85), rgba(8,10,14,0) 62%); }
+  .work.has-img .kind, .work.has-img .ttl { position: relative; z-index: 1; color: #fff; }
+  .work.has-img .play { z-index: 1; background: rgba(8,10,14,.55); border-color: rgba(255,255,255,.35); }
+  .work.has-img .play svg { fill: #fff; }
+  .modal { position: fixed; inset: 0; z-index: 50; background: rgba(6,8,12,.85); display: grid; place-items: center; padding: 16px; }
+  .modal[hidden] { display: none; }
+  .mbox { position: relative; width: min(100%, 960px); aspect-ratio: 16 / 9; background: #000; border-radius: 12px; }
+  .mbox.v { aspect-ratio: 9 / 16; width: auto; height: 86vh; max-width: 100%; }
+  .mbox iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 12px; }
+  .mclose { position: fixed; inset-block-start: 12px; inset-inline-end: 12px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #11151C; font-size: 24px; line-height: 1; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="app" lang="ar" dir="rtl">
+  <div class="wrap">
+
+    <div class="top">
+      <div class="mark"><i></i><span class="ar">أمجد الشعشاع</span><span class="en">Amjad Al Shaasha</span></div>
+      <div class="lang" role="group" aria-label="Language / اللغة">
+        <button type="button" data-lang="ar" aria-pressed="true">عربي</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+
+    <header class="hero">
+      <p class="eyebrow">
+        <span class="ar">محرر فيديو · مختص سوشال ميديا</span>
+        <span class="en">Video editor · Social media specialist</span>
+      </p>
+      <h1><span class="ar">أمجد الشعشاع</span><span class="en">Amjad Al Shaasha</span></h1>
+      <p class="lead">
+        <span class="ar">محرر فيديو ومختص سوشال ميديا بخبرة تتجاوز 4 سنوات، يجمع بين السرد القصصي وفهم سيكولوجية الجمهور واستراتيجيات المحتوى المبنية على الأداء. يصنع فيديوهات لافتة ويدير حملات ترفع التفاعل والتحويلات.</span>
+        <span class="en">Video editor and social media specialist with 4+ years of experience blending storytelling, audience psychology and performance-driven content strategy. Produces eye-catching videos and runs campaigns that lift engagement and conversions.</span>
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#contact"><span class="ar">تواصل معه</span><span class="en">Get in touch</span></a>
+        <a class="btn" href="#works"><span class="ar">شاهد الأعمال</span><span class="en">See the work</span></a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b class="num">4+</b><span><span class="ar">سنوات خبرة في المونتاج والسوشال ميديا</span><span class="en">years in editing and social media</span></span></div>
+        <div class="stat"><b class="num">45%</b><span><span class="ar">أعلى زيادة في معدل تفاعل الفيديو (Addvert.it)</span><span class="en">peak lift in video engagement rate (Addvert.it)</span></span></div>
+        <div class="stat"><b class="num">30%</b><span><span class="ar">زيادة في احتفاظ المشاهدين بالفيديوهات الترويجية (Asuaaq)</span><span class="en">rise in viewer retention on promo videos (Asuaaq)</span></span></div>
+      </div>
+    </header>
+
+    <section id="works">
+      <h2><span class="ar">الأعمال</span><span class="en">Selected work</span></h2>
+      <p class="sub"><span class="ar">ريلز وإعلانات وفيديوهات تعليمية وموشن غرافيك لعملاء من التعليم والتقنية والتجزئة.</span><span class="en">Reels, ads, educational videos and motion graphics for education, tech and retail clients.</span></p>
+      <div class="works" id="worksGrid"></div>
+    </section>
+
+    <section id="experience">
+      <h2><span class="ar">الخبرة</span><span class="en">Experience</span></h2>
+      <p class="sub"><span class="ar">كل مسار على المحور الزمني من 2021 حتى اليوم، كلها بدوام جزئي وتتداخل مع بعضها.</span><span class="en">Every role plotted on one timeline from 2021 to today. All part-time, several overlapping.</span></p>
+
+      <div class="axis" aria-hidden="true">
+        <span class="num" style="--p:0">2021</span>
+        <span class="num" style="--p:9.09">2022</span>
+        <span class="num" style="--p:27.27">2023</span>
+        <span class="num" style="--p:45.45">2024</span>
+        <span class="num" style="--p:63.64">2025</span>
+        <span class="num" style="--p:81.82">2026</span>
+      </div>
+
+      <div class="roles">
+
+        <article class="role" style="--clip: var(--c-free)">
+          <h3><span class="ar">مشاريع حرة</span><span class="en">Freelance projects</span></h3>
+          <div class="meta">
+            <span><span class="ar">محرر فيديو / صانع محتوى / مستشار سوشال ميديا</span><span class="en">Video editor / Content creator / Social media consultant</span></span>
+            <span class="when"><span class="ar">يوليو 2021 – الآن</span><span class="en">Jul 2021 – Present</span></span>
+          </div>
+          <div class="track"><span class="bar" style="--s:0;--w:65"></span></div>
+          <ul>
+            <li><span class="ar">إنتاج فيديوهات تعليمية وترويجية لعملاء التعليم الإلكتروني والتقنية.</span><span class="en">Produced educational and promotional videos for e-learning and tech clients.</span></li>
+            <li><span class="ar">تقديم استشارات حول استراتيجيات نمو السوشال ميديا واتجاه المحتوى.</span><span class="en">Advised on social media growth strategy and content direction.</span></li>
+            <li><span class="ar">دعم العملاء في رفع الوصول والتفاعل عبر خطط محتوى مخصصة.</span><span class="en">Helped clients improve reach and engagement with tailored content plans.</span></li>
+          </ul>
+          <p class="clients"><b><span class="ar">العملاء:</span><span class="en">Clients:</span></b> Almajd Learning Center, Gaist Platform, Triovers Software Company <span class="ar">وغيرهم</span><span class="en">and others</span></p>
+        </article>
+
+        <article class="role" style="--clip: var(--c-video)">
+          <h3>Addvert.it <span class="ar">– وكالة تسويق رقمي</span><span class="en">– Digital marketing agency</span></h3>
+          <div class="meta">
+            <span><span class="ar">محرر فيديو (دوام جزئي)</span><span class="en">Video editor (part-time)</span></span>
+            <span class="when"><span class="ar">يناير 2022 – مايو 2025</span><span class="en">Jan 2022 – May 2025</span></span>
+          </div>
+          <div class="track"><span class="bar" style="--s:6;--w:41"></span></div>
+          <ul>
+            <li><span class="ar">إنتاج وتحرير فيديوهات ترويجية وفيديوهات سوشال ميديا عالية الجودة لعدة عملاء، ما عزز ظهور العلامات وتفاعل الجمهور.</span><span class="en">Produced and edited high-quality promotional and social videos for multiple clients, raising brand visibility and engagement.</span></li>
+            <li><span class="ar">التعاون مع الفريق الإبداعي لتطوير مواد إعلانية ديناميكية لفيسبوك وإنستغرام وتيك توك.</span><span class="en">Worked with the creative team on dynamic ad visuals for Facebook, Instagram and TikTok.</span></li>
+            <li><span class="ar">رفع متوسط معدل تفاعل الفيديو حتى 45% عبر السرد القصصي وتحسين المونتاج.</span><span class="en">Raised average video engagement by up to 45% through storytelling and editing optimization.</span></li>
+            <li><span class="ar">تنفيذ انتقالات إبداعية وموشن غرافيك وقطعات ديناميكية متوافقة مع هوية العلامة.</span><span class="en">Built creative transitions, motion graphics and dynamic cuts in line with each brand identity.</span></li>
+          </ul>
+        </article>
+
+        <article class="role" style="--clip: var(--c-agency)">
+          <h3>Infintiin Media <span class="ar">– وكالة تسويق رقمي</span><span class="en">– Digital marketing agency</span></h3>
+          <div class="meta">
+            <span><span class="ar">محرر فيديو وصانع محتوى (دوام جزئي)</span><span class="en">Video editor &amp; content creator (part-time)</span></span>
+            <span class="when"><span class="ar">فبراير 2023 – أكتوبر 2025</span><span class="en">Feb 2023 – Oct 2025</span></span>
+          </div>
+          <div class="track"><span class="bar" style="--s:19;--w:33"></span></div>
+          <ul>
+            <li><span class="ar">تحرير فيديوهات تسويقية وريلز وإعلانات لقطاعات متنوعة: التعليم والتقنية والتجزئة.</span><span class="en">Edited marketing videos, reels and ads across education, tech and retail.</span></li>
+            <li><span class="ar">تصميم حملات بصرية إبداعية تجمع الموشن غرافيك وعناصر العلامة.</span><span class="en">Designed visual campaigns combining motion graphics and brand elements.</span></li>
+            <li><span class="ar">تقليص زمن تسليم المحتوى عبر سير عمل فعّال في مرحلة ما بعد الإنتاج.</span><span class="en">Cut content turnaround time with an efficient post-production workflow.</span></li>
+            <li><span class="ar">تسليم محتوى متوافق مع رؤى مستخلصة من تحليلات السوشال ميديا.</span><span class="en">Delivered content shaped by social analytics insights.</span></li>
+          </ul>
+        </article>
+
+        <article class="role" style="--clip: var(--c-social)">
+          <h3>Addvert.it</h3>
+          <div class="meta">
+            <span><span class="ar">مختص سوشال ميديا (دوام جزئي)</span><span class="en">Social media specialist (part-time)</span></span>
+            <span class="when"><span class="ar">نوفمبر 2023 – مارس 2024</span><span class="en">Nov 2023 – Mar 2024</span></span>
+          </div>
+          <div class="track"><span class="bar" style="--s:28;--w:5"></span></div>
+          <ul>
+            <li><span class="ar">إدارة صفحات السوشال ميديا ووضع خطط محتوى شهرية وجداول نشر.</span><span class="en">Managed social pages with monthly content plans and posting calendars.</span></li>
+            <li><span class="ar">كتابة نصوص مقنعة ومتسقة مع هوية العلامة للمنشورات والحملات.</span><span class="en">Wrote persuasive, on-brand copy for posts and campaigns.</span></li>
+            <li><span class="ar">اقتراح وتنفيذ أفكار تسويقية إبداعية حسّنت نمو المتابعين ومؤشرات التفاعل.</span><span class="en">Proposed and ran creative marketing ideas that improved follower growth and engagement.</span></li>
+            <li><span class="ar">التنسيق مع المصممين والمحررين لضمان اتساق بصري على كل المنصات.</span><span class="en">Coordinated with designers and editors for visual consistency across platforms.</span></li>
+          </ul>
+        </article>
+
+        <article class="role" style="--clip: var(--c-app)">
+          <h3>Asuaaq App <span class="ar">– تطبيق سوق على الموبايل</span><span class="en">– Mobile marketplace app</span></h3>
+          <div class="meta">
+            <span><span class="ar">منتج محتوى مرئي (دوام جزئي)</span><span class="en">Visual content producer (part-time)</span></span>
+            <span class="when"><span class="ar">مارس 2024 – أكتوبر 2025</span><span class="en">Mar 2024 – Oct 2025</span></span>
+          </div>
+          <div class="track"><span class="bar" style="--s:32;--w:20"></span></div>
+          <ul>
+            <li><span class="ar">إنتاج وإخراج محتوى فيديو لحملات التطبيق التسويقية وقنواته على السوشال ميديا.</span><span class="en">Created and directed video content for the app's campaigns and social channels.</span></li>
+            <li><span class="ar">تطوير فيديوهات قصيرة مناسبة للموبايل والعرض العمودي لزيادة التحميلات والظهور.</span><span class="en">Developed short vertical videos for mobile to grow downloads and visibility.</span></li>
+            <li><span class="ar">التعاون مع فرق التسويق لتحويل الأفكار إلى سرد بصري جذاب.</span><span class="en">Worked with marketing teams to turn ideas into visual storytelling.</span></li>
+            <li><span class="ar">المساهمة في رفع احتفاظ المشاهدين بنسبة 30% على الفيديوهات الترويجية عبر أسلوب مونتاج وإيقاع جذابين.</span><span class="en">Contributed to a 30% increase in viewer retention on promo videos through editing style and pacing.</span></li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2><span class="ar">المهارات</span><span class="en">Skills</span></h2>
+      <p class="sub"><span class="ar">أدوات المونتاج، ومنصات النشر، والتفكير التسويقي وراء كل فيديو.</span><span class="en">The editing tools, the platforms, and the marketing thinking behind each video.</span></p>
+      <div class="cols">
+        <div class="box">
+          <h3><span class="ar">المونتاج</span><span class="en">Editing</span></h3>
+          <ul>
+            <li>Adobe Premiere Pro</li>
+            <li>CapCut</li>
+            <li><span class="ar">موشن غرافيك وتكوين بصري</span><span class="en">Motion graphics &amp; visual composition</span></li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3><span class="ar">السوشال ميديا</span><span class="en">Social media</span></h3>
+          <ul>
+            <li>Meta Business Suite</li>
+            <li>TikTok</li>
+            <li>Instagram</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3><span class="ar">المحتوى والاستراتيجية</span><span class="en">Content &amp; strategy</span></h3>
+          <ul>
+            <li><span class="ar">كتابة المحتوى والنصوص الإعلانية</span><span class="en">Content writing &amp; copywriting</span></li>
+            <li><span class="ar">تخطيط الحملات الإبداعية</span><span class="en">Creative campaign planning</span></li>
+            <li><span class="ar">استراتيجية التسويق وتحليل الترندات</span><span class="en">Marketing strategy &amp; trend analysis</span></li>
+            <li><span class="ar">السرد القصصي وسيكولوجية الجمهور</span><span class="en">Storytelling &amp; audience psychology</span></li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3><span class="ar">العلامة والعمل مع الفرق</span><span class="en">Brand &amp; teamwork</span></h3>
+          <ul>
+            <li><span class="ar">تموضع العلامة والهوية البصرية</span><span class="en">Brand positioning &amp; visual identity</span></li>
+            <li><span class="ar">العمل الجماعي والتواصل عن بُعد</span><span class="en">Team collaboration &amp; remote communication</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2><span class="ar">الأسلوب والخلفية</span><span class="en">Approach &amp; background</span></h2>
+      <div class="cols" style="margin-top:20px">
+        <div class="box">
+          <h3><span class="ar">كيف يعمل</span><span class="en">How he works</span></h3>
+          <ul>
+            <li><span class="ar">دمج سيكولوجية التسويق مع المونتاج الإبداعي لصناعة مرئيات عالية التأثير.</span><span class="en">Merges marketing psychology with creative editing for high-impact visuals.</span></li>
+            <li><span class="ar">تحويل الأهداف التسويقية إلى سرد بصري يدفع نحو التحويلات.</span><span class="en">Turns marketing goals into visual narratives that drive conversions.</span></li>
+            <li><span class="ar">شغف بالسرد والإبداع ومساعدة العلامات على بناء حضور رقمي قوي.</span><span class="en">Passionate about storytelling and helping brands build a strong digital presence.</span></li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3><span class="ar">التعليم</span><span class="en">Education</span></h3>
+          <p><b><span class="ar">بكالوريوس في التجارة والاقتصاد</span><span class="en">Bachelor's in Commerce and Economics</span></b><br><span class="ar">جامعة دمشق</span><span class="en">Damascus University</span></p>
+        </div>
+        <div class="box">
+          <h3><span class="ar">اللغات</span><span class="en">Languages</span></h3>
+          <ul>
+            <li><span class="ar">العربية: لغة أم</span><span class="en">Arabic: native</span></li>
+            <li><span class="ar">الإنجليزية: مستوى B2 (متوسط إلى فوق المتوسط)</span><span class="en">English: B2 (intermediate to upper-intermediate)</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact">
+        <h2><span class="ar">للتعاون والتواصل</span><span class="en">Let's work together</span></h2>
+        <p class="sub"><span class="ar">لمشاريع الفيديو والسوشال ميديا. الرد أسرع على واتساب.</span><span class="en">For video and social media projects. WhatsApp is the fastest way to reach him.</span></p>
+        <div class="rows">
+          <div class="row">
+            <span class="k"><span class="ar">الهاتف</span><span class="en">Phone</span></span>
+            <span class="v num mono" id="phoneTxt">+963 995 990 662</span>
+            <a class="btn wa" href="https://wa.me/963995990662" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div class="row">
+            <span class="k"><span class="ar">البريد</span><span class="en">Email</span></span>
+            <span class="v num mono" id="mailTxt">amjd.sh260@gmail.com</span>
+            <button type="button" class="btn copy" data-copy="amjd.sh260@gmail.com" data-target="mailTxt"><span class="idle"><span class="ar">نسخ</span><span class="en">Copy</span></span><span class="done"><span class="ar">تم النسخ</span><span class="en">Copied</span></span></button>
+          </div>
+          <div class="row">
+            <span class="k"><span class="ar">الموقع</span><span class="en">Location</span></span>
+            <span class="v"><span class="ar">السويداء، سوريا</span><span class="en">As-Suwayda, Syria</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>© <span class="num">2026</span> <span class="ar">أمجد الشعشاع</span><span class="en">Amjad Al Shaasha</span></footer>
+  </div>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true">
+  <button type="button" class="mclose" id="mclose" aria-label="Close">&times;</button>
+  <div class="mbox" id="mbox"></div>
+</div>
+
+<script>
+  var KINDS = {
+    reel:   { ar: "ريلز",          en: "Reel" },
+    ad:     { ar: "إعلان",         en: "Ad" },
+    edu:    { ar: "فيديو تعليمي",  en: "Educational video" },
+    motion: { ar: "موشن غرافيك",   en: "Motion graphics" }
+  };
+  var PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v13l11-6.5z"/></svg>';
+  var WORKS = [];
+
+  function pair(ar, en) {
+    return '<span class="ar">' + ar + '</span><span class="en">' + en + '</span>';
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : "#"; }
+  function driveId(u) {
+    var m = /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/.exec(u || "");
+    return m ? m[1] : null;
+  }
+
+  function renderWorks(list) {
+    WORKS = list;
+    var grid = document.getElementById("worksGrid");
+    var html = "";
+    if (list.length) {
+      list.forEach(function (w, i) {
+        var k = KINDS[w.type] || KINDS.reel;
+        var ar = w.ar || w.en || "";
+        var en = w.en || w.ar || "";
+        var id = driveId(w.url);
+        var inner =
+          (id ? '<img class="thumb" alt="" loading="lazy" src="https://drive.google.com/thumbnail?id=' + id + '&sz=w640">' : "") +
+          '<span class="play">' + PLAY + '</span>' +
+          '<span class="kind">' + pair(esc(k.ar), esc(k.en)) + '</span>' +
+          (ar || en ? '<span class="ttl">' + pair(esc(ar), esc(en)) + '</span>' : "");
+        if (id) {
+          html += '<button type="button" class="work has-img" data-i="' + i + '">' + inner + '</button>';
+        } else {
+          html += '<a class="work" href="' + esc(safeUrl(w.url)) + '" target="_blank" rel="noopener">' + inner + '</a>';
+        }
+      });
+    } else {
+      Object.keys(KINDS).forEach(function (key) {
+        var k = KINDS[key];
+        html += '<div class="work soon">' +
+          '<span class="play">' + PLAY + '</span>' +
+          '<span class="kind">' + pair(k.ar, k.en) + '</span>' +
+          '<span class="ttl">' + pair("قريباً", "Coming soon") + '</span></div>';
+      });
+    }
+    grid.innerHTML = html;
+    grid.querySelectorAll("img.thumb").forEach(function (img) {
+      img.addEventListener("error", function () {
+        var card = img.parentNode;
+        img.remove();
+        card.classList.remove("has-img");
+      });
+    });
+  }
+
+  /* video modal (Google Drive preview) */
+  var modal = document.getElementById("modal");
+  var mbox = document.getElementById("mbox");
+  function openModal(w) {
+    var id = driveId(w.url);
+    if (!id) return;
+    mbox.className = "mbox" + (w.type === "reel" ? " v" : "");
+    mbox.innerHTML = '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>';
+    modal.hidden = false;
+  }
+  function closeModal() {
+    modal.hidden = true;
+    mbox.innerHTML = "";
+  }
+  document.getElementById("worksGrid").addEventListener("click", function (e) {
+    var b = e.target.closest("button.work");
+    if (b) openModal(WORKS[Number(b.dataset.i)]);
+  });
+  document.getElementById("mclose").addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+
+  /* works come from data/works.json, edited through admin.html */
+  fetch("data/works.json?v=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (d) { renderWorks(Array.isArray(d) ? d : []); })
+    .catch(function () { renderWorks([]); });
+
+  /* language */
+  var app = document.getElementById("app");
+  function setLang(l) {
+    app.lang = l;
+    app.dir = l === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = l;
+    document.querySelectorAll(".lang button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.lang === l));
+    });
+    try { localStorage.setItem("lang", l); } catch (e) {}
+  }
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.dataset.lang); });
+  });
+
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      function ok() {
+        b.classList.add("ok");
+        setTimeout(function () { b.classList.remove("ok"); }, 1800);
+      }
+      function fallback() {
+        var el = document.getElementById(b.dataset.target);
+        if (!el) return;
+        var r = document.createRange();
+        r.selectNodeContents(el);
+        var s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+      }
+      try {
+        navigator.clipboard.writeText(b.dataset.copy).then(ok, fallback);
+      } catch (e) { fallback(); }
+    });
+  });
+
+  try {
+    var saved = localStorage.getItem("lang");
+    if (saved === "en" || saved === "ar") setLang(saved);
+  } catch (e) {}
+</script>
+</body>
+</html>
